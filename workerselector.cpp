@@ -32,6 +32,7 @@ void WorkerSelector::refreshList(){
         ui->tableWidget_2->setItem(i, 2, new QTableWidgetItem((*selectedList)[i].nickname));
         ui->tableWidget_2->setItem(i, 3, new QTableWidgetItem((*selectedList)[i].workGroup));
     }
+    emit workerChanged();
 
 }
 void WorkerSelector::loadList(){

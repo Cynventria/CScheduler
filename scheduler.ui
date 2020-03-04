@@ -211,7 +211,10 @@
     </rect>
    </property>
    <attribute name="horizontalHeaderDefaultSectionSize">
-    <number>95</number>
+    <number>93</number>
+   </attribute>
+   <attribute name="verticalHeaderVisible">
+    <bool>false</bool>
    </attribute>
    <column>
     <property name="text">

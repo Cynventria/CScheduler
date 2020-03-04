@@ -30,6 +30,9 @@ public:
     void refreshList();
     void clear();
 
+signals:
+    void workerChanged();
+
 private slots:
     void on_pushButton_3_clicked();
 

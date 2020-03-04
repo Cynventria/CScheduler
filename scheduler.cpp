@@ -13,6 +13,7 @@ Scheduler::Scheduler(QWidget *parent) :
     teamCount = 0;
     peopleUpdated = 0;
     nameMode = 0;
+    QObject::connect(&wSelector, SIGNAL(workerChanged()), this, SLOT(EXTupdateScheduler()));
 
 }
 
@@ -104,11 +105,20 @@ void Scheduler::updateScheduler(){
         ui->tableWidget->item(selectedEvent, i)->setForeground(QColor("White"));
     }
 
+    ui->tableWidget_2->setRowCount(0);
+    for(int i = 0; i < events[selectedEvent].away.size(); i++){
+        ui->tableWidget_2->insertRow(i);
+        ui->tableWidget_2->setItem(i, 0, new QTableWidgetItem(QString::number(events[selectedEvent].away[i].team)));
+        ui->tableWidget_2->setItem(i, 1, new QTableWidgetItem(events[selectedEvent].away[i].name));
+        ui->tableWidget_2->setItem(i, 2, new QTableWidgetItem(events[selectedEvent].away[i].workGroup));
+    }
+
 
     ui->listWidget->clear();
     for(int i = ALLworkers->teamCount; i > 0; i--){
         if(selectedEvent >= 0) ui->listWidget->insertItem(0, new QListWidgetItem("第" +  QString::number(i) + "小隊 - " + QString::number(ALLworkers->eachTeam[i])));
     }
+
 
 }
 void Scheduler::on_timeEdit_userTimeChanged(const QTime &time)
@@ -130,4 +140,8 @@ void Scheduler::on_timeEdit_2_userTimeChanged(const QTime &time)
 void Scheduler::on_pushButton_7_clicked()
 {
     workersUI.show();
+}
+void Scheduler::EXTupdateScheduler(){
+    qDebug() << "UPDATED FROM SLOT" << endl;
+    updateScheduler();
 }

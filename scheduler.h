@@ -31,7 +31,12 @@ public:
     bool nameMode;
     WorkerSelector wSelector;
 
+    //QObject::connect(&wSelector, SIGNAL(workerChanged()), this, SLOT(EXTupdateScheduler()));
+
     WorkersUI workersUI;
+
+public slots:
+    void EXTupdateScheduler();
 
 private slots:
     void on_pushButton_clicked();
