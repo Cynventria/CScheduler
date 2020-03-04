@@ -20,8 +20,9 @@ public:
 
     vector<People> List;
     vector<People> *selectedList;
-    void setList(vector<People> AList, vector<People>* SList){
-        List = AList;
+    void setList(vector<People>* AList, vector<People>* SList){
+        //List = AList;
+        List.assign(AList->begin(), AList->end());
         selectedList = SList;
         loadList();
     }
@@ -31,6 +32,8 @@ public:
 
 private slots:
     void on_pushButton_3_clicked();
+
+    void on_pushButton_4_clicked();
 
 private:
     Ui::WorkerSelector *ui;

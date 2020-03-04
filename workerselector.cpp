@@ -15,6 +15,9 @@ WorkerSelector::~WorkerSelector()
 }
 
 void WorkerSelector::refreshList(){
+
+    ui->tableWidget->setRowCount(0);
+    ui->tableWidget_2->setRowCount(0);
     for(int i = 0; i < List.size(); i++){
         ui->tableWidget->insertRow(ui->tableWidget->rowCount());
         ui->tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(List[i].team)));
@@ -50,5 +53,28 @@ void WorkerSelector::clear(){
 
 void WorkerSelector::on_pushButton_3_clicked()
 {
-    //qDebug() << ui->tableWidget->selectedRanges()<< endl;
+    for(int i = 0; i < ui->tableWidget->selectedItems().size(); i+=4){
+        for(int j = 0; j < List.size(); j++){
+            if(ui->tableWidget->selectedItems()[i+1]->text() == List[j].name){
+                selectedList->push_back(List[j]);
+                List.erase(List.begin()+j);
+                j--;
+            }
+        }
+    }
+    refreshList();
+}
+
+void WorkerSelector::on_pushButton_4_clicked()
+{
+    for(int i = 0; i < ui->tableWidget_2->selectedItems().size(); i+=4){
+        for(int j = 0; j < selectedList->size(); j++){
+            if(ui->tableWidget_2->selectedItems()[i+1]->text() == (*selectedList)[j].name){
+                List.push_back((*selectedList)[j]);
+                selectedList->erase(selectedList->begin()+j);
+                j--;
+            }
+        }
+    }
+    refreshList();
 }

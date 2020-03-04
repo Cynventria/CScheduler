@@ -81,10 +81,10 @@ void Scheduler::on_textEdit_textChanged()
 void Scheduler::on_pushButton_5_clicked() //ADD WORKER
 {
     if(selectedEvent>=0){
-        //WorkerSelector wSelector;
+
         vector<People> AList(ALLworkers->List.begin(), ALLworkers->List.end());
 
-        wSelector.setList(AList, &events[selectedEvent].away);
+        wSelector.setList(&AList, &events[selectedEvent].away);
         wSelector.show();
     }
 }
