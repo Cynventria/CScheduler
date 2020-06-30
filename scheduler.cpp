@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QMessageBox>
 #include "workerselector.h"
+#include <algorithm>
 
 Scheduler::Scheduler(QWidget *parent) :
     QWidget(parent),
@@ -81,7 +82,9 @@ void Scheduler::on_textEdit_textChanged()
 
 void Scheduler::on_pushButton_5_clicked() //ADD WORKER
 {
-    if(selectedEvent>=0){
+    if(selectedEvent>=0 && events.size() != 0){
+
+
 
         vector<People> AList(ALLworkers->List.begin(), ALLworkers->List.end());
 
@@ -91,6 +94,15 @@ void Scheduler::on_pushButton_5_clicked() //ADD WORKER
 }
 
 void Scheduler::updateScheduler(){
+
+    for(int i = 0; i < events.size(); i++){
+        for(int j = i+1; j < events.size(); j++){
+            if(events[i].startTime > events[j].startTime){
+                swap(events[i], events[j]);
+                if(i == selectedEvent) selectedEvent = j;
+            }
+        }
+    }
 
     ui->tableWidget->setRowCount(0);
     for(int i = 0; i < events.size(); i++){
@@ -105,7 +117,13 @@ void Scheduler::updateScheduler(){
         ui->tableWidget->item(selectedEvent, i)->setForeground(QColor("White"));
     }
 
+    ui->timeEdit->setTime(events[selectedEvent].startTime);
+    ui->timeEdit_2->setTime(events[selectedEvent].endTime);
+    ui->lineEdit->setText(events[selectedEvent].title);
+
+
     ui->tableWidget_2->setRowCount(0);
+
     for(int i = 0; i < events[selectedEvent].away.size(); i++){
         ui->tableWidget_2->insertRow(i);
         ui->tableWidget_2->setItem(i, 0, new QTableWidgetItem(QString::number(events[selectedEvent].away[i].team)));
@@ -113,11 +131,46 @@ void Scheduler::updateScheduler(){
         ui->tableWidget_2->setItem(i, 2, new QTableWidgetItem(events[selectedEvent].away[i].workGroup));
     }
 
+    bool overlaped = 0, peopleoverlapped = 0;
+    //vector<int>
+    for(int i = 0; i < events.size(); i++){
+        if(i == selectedEvent) continue;
+        if(events[i].startTime < events[selectedEvent].endTime && events[i].endTime > events[selectedEvent].startTime){
+            //
+            overlaped = 1;
+            qDebug() << "overlapped　with"  << events[i].startTime << endl;
+            for(int j = 0; j < events[selectedEvent].away.size() ; j++){
+                for(int k = 0; k < events[i].away.size(); k++){
+                    if( events[selectedEvent].away[j].name == events[i].away[k].name){
+                        qDebug() << events[selectedEvent].away[j].name << "overlapped" << endl;
+
+                        ui->tableWidget_2->item(j,0)->setBackground(QColor("#ffc0c0"));
+                        ui->tableWidget_2->item(j,1)->setBackground(QColor("#ffc0c0"));
+                        ui->tableWidget_2->item(j,2)->setBackground(QColor("#ffc0c0"));
+
+                        peopleoverlapped = 1;
+
+                    }
+                }
+            }
+
+        }
+    }
+    //overlapped events detection
 
     ui->listWidget->clear();
     for(int i = ALLworkers->teamCount; i > 0; i--){
-        if(selectedEvent >= 0) ui->listWidget->insertItem(0, new QListWidgetItem("第" +  QString::number(i) + "小隊 - " + QString::number(ALLworkers->eachTeam[i])));
+        int inTeam = ALLworkers->eachTeam[i];
+
+        for(int j = 0; j < events[selectedEvent].away.size(); j++)
+            if(events[selectedEvent].away[j].team == i)  inTeam--;
+
+        if(selectedEvent >= 0) ui->listWidget->insertItem(0, new QListWidgetItem("第" +  QString::number(i) + "小隊 - " + QString::number(inTeam)));
+        if(inTeam == 2) ui->listWidget->item(0)->setBackground(QColor("#ffc0c0"));
+        else if(inTeam < 2) ui->listWidget->item(0)->setBackground(QColor("#ff5a5a"));
     }
+    if(peopleoverlapped)
+        ui->listWidget->insertItem(0, new QListWidgetItem("!!重複調離同一個人!!"));
 
 
 }
@@ -143,5 +196,12 @@ void Scheduler::on_pushButton_7_clicked()
 }
 void Scheduler::EXTupdateScheduler(){
     qDebug() << "UPDATED FROM SLOT" << endl;
+    updateScheduler();
+}
+
+void Scheduler::on_pushButton_2_clicked()
+{
+    events.erase(events.begin()+selectedEvent);
+    selectedEvent = 0;
     updateScheduler();
 }

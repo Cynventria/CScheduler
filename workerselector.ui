@@ -6,9 +6,15 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>841</width>
+    <width>830</width>
     <height>786</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
   </property>
   <property name="contextMenuPolicy">
    <enum>Qt::DefaultContextMenu</enum>
@@ -20,7 +26,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>10</y>
+     <y>34</y>
      <width>381</width>
      <height>711</height>
     </rect>
@@ -70,8 +76,8 @@
   <widget class="QPushButton" name="pushButton">
    <property name="geometry">
     <rect>
-     <x>750</x>
-     <y>740</y>
+     <x>740</x>
+     <y>750</y>
      <width>75</width>
      <height>23</height>
     </rect>
@@ -80,24 +86,11 @@
     <string>確定</string>
    </property>
   </widget>
-  <widget class="QPushButton" name="pushButton_2">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>740</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>取消</string>
-   </property>
-  </widget>
   <widget class="QTableWidget" name="tableWidget_2">
    <property name="geometry">
     <rect>
      <x>440</x>
-     <y>10</y>
+     <y>34</y>
      <width>381</width>
      <height>711</height>
     </rect>
@@ -145,7 +138,7 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>300</y>
+     <y>324</y>
      <width>31</width>
      <height>31</height>
     </rect>
@@ -158,13 +151,39 @@
    <property name="geometry">
     <rect>
      <x>400</x>
-     <y>340</y>
+     <y>364</y>
      <width>31</width>
      <height>31</height>
     </rect>
    </property>
    <property name="text">
     <string>&lt;</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>隊上人員</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="label_2">
+   <property name="geometry">
+    <rect>
+     <x>450</x>
+     <y>10</y>
+     <width>71</width>
+     <height>20</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>移出人員</string>
    </property>
   </widget>
  </widget>
